@@ -1,3 +1,0 @@
-[console_scripts]
-sleeplog-generate = sleeplog.cli:generate_main
-sleeplog-run = sleeplog.cli:run_main
