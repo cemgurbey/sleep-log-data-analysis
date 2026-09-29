@@ -4,25 +4,6 @@
 
 Standardized processing pipeline for longitudinal sleep diary and activity survey data (Morning and Evening diaries). Reads raw survey workbooks, validates date/time quality, and produces publication-ready datasets for SPSS, R, or Python.
 
-## How it started
-
-The original tool was a single 95 KB Jupyter notebook: every step — configuration, parsing, analysis, export — lived inline in ~23 cells with module-level globals. It worked, but it was hard to test, hard to reuse, and any change to the research schema meant editing a giant cell. It also had no runnable example: without real survey files you couldn't execute it at all (the built-in sample writer hand-rolled `.xlsx` files as raw XML strings and only covered a handful of columns).
-
-## What changed in v2
-
-| Before | After |
-|---|---|
-| One monolithic notebook | Installable Python package (`src/sleeplog/`) + a lean Colab notebook |
-| Hand-rolled `.xlsx` via XML strings | Synthetic data generator built on `openpyxl` with realistic sleep-behavior models |
-| No runnable example | `sleeplog.synthetic.generate_survey_workbooks()` — run the notebook as-is, get example results immediately |
-| Globals scattered across cells | `StudyConfig` / `SiteLocation` dataclasses, `pathlib` paths, type hints throughout |
-| `!pip install`, ad-hoc Colab snippets | `%pip install` from GitHub, `google.colab.files.upload()` / `files.download()` |
-| Fixed `astral` timezone handling | `zoneinfo.ZoneInfo`-based tz handling (stdlib, no `pytz` dependency quirks) |
-| Boundary early-termination codes (888) never applied — an hour-key parsing bug meant the condition could never match | Fixed: day-1 evening hours and last-day night hours in ROW3 are now correctly coded 888 |
-| No linting | `ruff` (lint + format), `pyproject.toml` packaging, CLI entry points |
-
-The research schema itself — column-letter mappings, response decoders, coding conventions (999/888), POMS-A subscales, circular time statistics — is preserved verbatim.
-
 ## Quickstart
 
 **Google Colab (recommended):** open the notebook above and run all cells. It installs the package from GitHub, generates synthetic survey data, runs the full pipeline, shows example charts, and lets you download the outputs. To use your own data instead, set `USE_SYNTHETIC = False` and upload your Morning/Evening workbooks when prompted.
