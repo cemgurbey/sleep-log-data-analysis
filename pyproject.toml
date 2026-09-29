@@ -1,0 +1,37 @@
+[project]
+name = "sleeplog"
+version = "2.0.0"
+description = "Standardized processing pipeline for longitudinal sleep diary and activity survey data (Morning/Evening diaries)."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Fırat Cem Gürbey" }]
+dependencies = [
+    "pandas>=2.0",
+    "numpy>=1.24",
+    "openpyxl>=3.1",
+    "astral>=3.0",
+]
+
+[project.optional-dependencies]
+viz = ["matplotlib>=3.7"]
+dev = ["ruff>=0.4"]
+
+[project.scripts]
+sleeplog-generate = "sleeplog.cli:generate_main"
+sleeplog-run = "sleeplog.cli:run_main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+ignore = ["E501"]
